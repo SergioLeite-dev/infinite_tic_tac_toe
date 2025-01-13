@@ -17,7 +17,29 @@ class GameSessionScreen extends StatelessWidget {
         child: ListenableBuilder(
           listenable: viewModel,
           builder: (context, snapshot) {
-            return Container();
+            return Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: GridView.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 5,
+                crossAxisSpacing: 5,
+                children: List.generate(
+                  9,
+                  (index) {
+                    final tile = viewModel.tiles[index ~/ 3][index % 3];
+                    return GestureDetector(
+                      onTap: () {
+                        viewModel.selectTile(index);
+                      },
+                      child: Container(
+                        color: tile?.color ?? Colors.grey,
+                        child: Text('$index'),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            );
           },
         ),
       ),
